@@ -1,25 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <!-- Load plotly.js into the DOM -->
-	<script src='https://cdn.plot.ly/plotly-2.20.0.min.js'></script>
-</head>
-<body>
-  <div id='myDiv'><!-- Plotly chart will be drawn inside this DIV --></div>
-  <script src="test.js"></script>
-  <!-- HTML -->
-<div>
-  <select id="dropdown">
-    <option value="hero1">Hero 1</option>
-    <option value="hero2">Hero 2</option>
-    <!-- Tambahkan opsi lain sesuai dengan jumlah hero yang ingin ditampilkan -->
-  </select>
-</div>
-<div id="myDiv"></div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- Load plotly.js into the DOM -->
+    <script src="https://cdn.plot.ly/plotly-2.20.0.min.js"></script>
+  </head>
+  <body>
+    <div id="myDiv"><!-- Plotly chart will be drawn inside this DIV --></div>
+    <script src="test.js"></script>
+    <!-- HTML -->
+    <div>
+      <select id="dropdown">
+        <option value="Esmeralda">Esmeralda</option>
+        <option value="Claude">Claude</option>
+        <option value="Akai">Akai</option>
 
-</body>
+        <!-- Tambahkan opsi lain sesuai dengan jumlah hero yang ingin ditampilkan -->
+      </select>
+      <select id="dropdown">
+        <option value="hero1">Hero 1</option>
+        <option value="hero2">Hero 2</option>
+        <!-- Tambahkan opsi lain sesuai dengan jumlah hero yang ingin ditampilkan -->
+      </select>
+      <p id=""></p>
+    </div>
+    <div id="myDiv"></div>
+  </body>
 </html>
