@@ -7,24 +7,41 @@
     <title>Document</title>
     <!-- Load plotly.js into the DOM -->
     <script src="https://cdn.plot.ly/plotly-2.20.0.min.js"></script>
+    <style>
+      .list-container {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      .list-item {
+        width: 100px;
+        height: 30px;
+        background-color: lightgray;
+        margin: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    </style>
   </head>
   <body>
+    <h4 id="namaHero"></h4>
     <div id="myDiv"><!-- Plotly chart will be drawn inside this DIV --></div>
     <script src="test.js"></script>
     <!-- HTML -->
     <div>
       <select id="dropdown">
-        <option value="Esmeralda">Esmeralda</option>
-        <option value="Claude">Claude</option>
-        <option value="Akai">Akai</option>
+        <option>PickedHero</option>
+        <option value="marksman">marskman</option>
+        <option value="tank">tank</option>
+        <option value="mage">mage</option>
+        <option value="fighter">Fighter</option>
+        <option value="assassin">Assassin</option>
+        <option value="support">Support</option>
 
         <!-- Tambahkan opsi lain sesuai dengan jumlah hero yang ingin ditampilkan -->
       </select>
-      <select id="dropdown">
-        <option value="hero1">Hero 1</option>
-        <option value="hero2">Hero 2</option>
-        <!-- Tambahkan opsi lain sesuai dengan jumlah hero yang ingin ditampilkan -->
-      </select>
+      <ul id="listContainer"></ul>
       <p id=""></p>
     </div>
     <div id="myDiv"></div>

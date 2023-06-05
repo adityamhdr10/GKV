@@ -1,21 +1,47 @@
 // Mendapatkan data dari file CSV menggunakan fetch API
-fetch("http://localhost:3000/MPL_ID_S10.csv")
+fetch("http://localhost:3000/mlbb_hero-edit.csv")
   .then((response) => response.text())
   .then((data) => {
     // Mengolah data CSV menjadi objek JavaScript
     const parsedData = processData(data);
+    console.log(parsedData[0]);
 
     // Membuat visualisasi menggunakan Plotly
-    createPlot(parsedData[0]);
 
     // Mengatur event listener untuk dropdown
     const dropdown = document.getElementById("dropdown");
     dropdown.addEventListener("change", () => {
       const selectedHero = dropdown.value;
       console.log(selectedHero);
-      const heroData = parsedData.find((item) => item.Hero === selectedHero);
-      console.log(heroData);
-      createPlot(heroData);
+      const filteredData = parsedData.filter((obj) => obj.role === selectedHero);
+      console.log(filteredData);
+
+      // Dapatkan referensi ke elemen ul
+      const listContainer = document.getElementById("listContainer");
+      const namahero = document.getElementById("namaHero");
+      listContainer.innerHTML = "";
+      namahero.innerHTML = "";
+      // Buat elemen li untuk setiap item dalam array data
+      filteredData.forEach((item) => {
+        // Buat elemen li
+        const listItem = document.createElement("li");
+
+        // Atur konten elemen li
+        listItem.textContent = item.hero_name;
+
+        listItem.addEventListener("click", () => {
+          // Tindakan yang ingin dilakukan ketika elemen li diklik
+          console.log(`Anda mengklik ${item.hero_name}`);
+          const heroData = parsedData.find((obj) => obj.hero_name == item.hero_name);
+          namahero.innerHTML = item.hero_name;
+          createPlot(heroData);
+        });
+
+        // Sisipkan elemen li ke dalam ul
+        listContainer.appendChild(listItem);
+
+        // Periksa jika sudah mencapai 10 list
+      });
     });
   })
   .catch((error) => {
@@ -60,11 +86,11 @@ function processCSVData(csvData) {
 // Fungsi untuk membuat visualisasi menggunakan Plotly
 function createPlot(data) {
   const r = [];
-
-  r.push(parseInt(data.Bs_lost));
-  r.push(parseInt(data.Bs_picked));
-  r.push(parseInt(data.Bs_won));
-  r.push(parseInt(data.Rs_picked));
+  r.push(parseInt(data.hp) / 350);
+  r.push(parseInt(data.defense_overall));
+  r.push(parseInt(data.offense_overall));
+  r.push(parseInt(data.difficulty_overall));
+  r.push(Math.floor(parseInt(data.movement_spd) / 100));
   const theta = ["HP", "Defense", "Offense", "Difficulty", "Movement Speed"];
 
   const plotData = [
@@ -80,7 +106,7 @@ function createPlot(data) {
     polar: {
       radialaxis: {
         visible: true,
-        range: [0, 100],
+        range: [0, 10],
       },
     },
     showlegend: false,
@@ -93,10 +119,11 @@ function createPlot(data) {
 function updatePlot(heroData) {
   const r = [];
 
-  r.push(parseInt(heroData.Bs_lost));
-  r.push(parseInt(heroData.Bs_picked));
-  r.push(parseInt(heroData.Bs_won));
-  r.push(parseInt(heroData.Rs_picked));
+  r.push(20);
+  r.push(parseInt(data.defense_overall));
+  r.push(parseInt(data.offense_overall));
+  r.push(parseInt(data.difficulty_overall));
+  r.push(parseInt(data.movement_spd));
   console.log(r);
 
   Plotly.update("myDiv", { r: r });
