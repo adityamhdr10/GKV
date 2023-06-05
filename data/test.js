@@ -1,10 +1,10 @@
 // Mendapatkan data dari file CSV menggunakan fetch API
-fetch("http://localhost:3000/mlbb_hero-edit.csv")
+fetch("http://localhost:3000/analisis.csv")
   .then((response) => response.text())
   .then((data) => {
     // Mengolah data CSV menjadi objek JavaScript
     const parsedData = processData(data);
-    console.log(parsedData[0]);
+    // console.log(parsedData[0]);
 
     // Membuat visualisasi menggunakan Plotly
 
@@ -86,12 +86,11 @@ function processCSVData(csvData) {
 // Fungsi untuk membuat visualisasi menggunakan Plotly
 function createPlot(data) {
   const r = [];
-  r.push(parseInt(data.hp) / 350);
-  r.push(parseInt(data.defense_overall));
-  r.push(parseInt(data.offense_overall));
-  r.push(parseInt(data.difficulty_overall));
-  r.push(Math.floor(parseInt(data.movement_spd) / 100));
-  const theta = ["HP", "Defense", "Offense", "Difficulty", "Movement Speed"];
+  r.push(parseInt(data.win_pick));
+  r.push(parseInt(data.lose_pick));
+  console.log(r.push(parseInt(data.winrate_pick)));
+  // r.push(Math.floor(parseInt(data.movement_spd) / 100));
+  const theta = [ "Win", "Lose", "Win Rate"];
 
   const plotData = [
     {
@@ -106,7 +105,7 @@ function createPlot(data) {
     polar: {
       radialaxis: {
         visible: true,
-        range: [0, 10],
+        range: [0, 100],
       },
     },
     showlegend: false,
@@ -116,15 +115,15 @@ function createPlot(data) {
 }
 
 // Fungsi untuk memperbarui visualisasi berdasarkan pilihan dropdown
-function updatePlot(heroData) {
-  const r = [];
+// function updatePlot(heroData) {
+//   const r = [];
 
-  r.push(20);
-  r.push(parseInt(data.defense_overall));
-  r.push(parseInt(data.offense_overall));
-  r.push(parseInt(data.difficulty_overall));
-  r.push(parseInt(data.movement_spd));
-  console.log(r);
+//   r.push(20);
+//   r.push(parseInt(data.defense_overall));
+//   r.push(parseInt(data.offense_overall));
+//   r.push(parseInt(data.difficulty_overall));
+//   r.push(parseInt(data.movement_spd));
+//   console.log(r);
 
-  Plotly.update("myDiv", { r: r });
-}
+//   Plotly.update("myDiv", { r: r });
+// }
