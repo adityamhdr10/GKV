@@ -1,5 +1,5 @@
 // Mendapatkan data dari file CSV menggunakan fetch API
-fetch("http://localhost:3000/analisis.csv")
+fetch("http://localhost:3000/mlbb_hero-edit.csv")
   .then((response) => response.text())
   .then((data) => {
     // Mengolah data CSV menjadi objek JavaScript
@@ -86,11 +86,18 @@ function processCSVData(csvData) {
 // Fungsi untuk membuat visualisasi menggunakan Plotly
 function createPlot(data) {
   const r = [];
-  r.push(parseInt(data.win_pick));
-  r.push(parseInt(data.lose_pick));
-  console.log(r.push(parseInt(data.winrate_pick)));
+  // r.push(parseInt(data.win_pick));
+  // r.push(parseInt(data.lose_pick));
+  // console.log(r.push(parseInt(data.winrate_pick)));
   // r.push(Math.floor(parseInt(data.movement_spd) / 100));
-  const theta = [ "Win", "Lose", "Win Rate"];
+  // const theta = ["Win", "Lose", "Win Rate"];
+  
+  r.push(parseInt(data.hp));
+  r.push(parseInt(data.defense));
+  r.push(parseInt(data.offense));
+  r.push(parseInt(data.difficult));
+  r.push(Math.floor(parseInt(data.movement) / 100));
+  const theta = [ "HP", "Defense","Difficult", "Offense" ];
 
   const plotData = [
     {
@@ -105,7 +112,7 @@ function createPlot(data) {
     polar: {
       radialaxis: {
         visible: true,
-        range: [0, 100],
+        range: [0, 10],
       },
     },
     showlegend: false,

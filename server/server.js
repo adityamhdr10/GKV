@@ -9,8 +9,8 @@ app.use(cors());
 app.use(express.static(__dirname));
 
 // Menggunakan endpoint untuk mengirim file CSV
-app.get("/analisis.csv", (req, res) => {
-  const csvFilePath = __dirname + "/analisis.csv";
+app.get("/mlbb_hero-edit.csv", (req, res) => {
+  const csvFilePath = __dirname + "/mlbb_hero-edit.csv";
   const readableStream = fs.createReadStream(csvFilePath);
   readableStream.pipe(res);
 });
