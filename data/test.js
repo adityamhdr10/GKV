@@ -4,10 +4,11 @@ fetch("http://localhost:3000/mlbb_hero-edit.csv")
   .then((data) => {
     // Mengolah data CSV menjadi objek JavaScript
     const parsedData = processData(data);
-    // console.log(parsedData[0]);
 
     // Membuat visualisasi menggunakan Plotly
-
+    firstPlot();
+    const namahero = document.getElementById("namaHero");
+    namahero.innerHTML = "";
     // Mengatur event listener untuk dropdown
     const dropdown = document.getElementById("dropdown");
     dropdown.addEventListener("change", () => {
@@ -18,9 +19,9 @@ fetch("http://localhost:3000/mlbb_hero-edit.csv")
 
       // Dapatkan referensi ke elemen ul
       const listContainer = document.getElementById("listContainer");
-      const namahero = document.getElementById("namaHero");
+
       listContainer.innerHTML = "";
-      namahero.innerHTML = "";
+
       // Buat elemen li untuk setiap item dalam array data
       filteredData.forEach((item) => {
         // Buat elemen li
@@ -83,21 +84,20 @@ function processCSVData(csvData) {
   return data;
 }
 
+function mapNilai(nilai, minAsli, maxAsli, minBaru = 1, maxBaru = 10) {
+  return ((nilai - minAsli) * (maxBaru - minBaru)) / (maxAsli - minAsli) + minBaru;
+}
+
 // Fungsi untuk membuat visualisasi menggunakan Plotly
 function createPlot(data) {
   const r = [];
-  // r.push(parseInt(data.win_pick));
-  // r.push(parseInt(data.lose_pick));
-  // console.log(r.push(parseInt(data.winrate_pick)));
-  // r.push(Math.floor(parseInt(data.movement_spd) / 100));
-  // const theta = ["Win", "Lose", "Win Rate"];
-  
-  r.push(parseInt(data.hp));
+
+  r.push(mapNilai(parseInt(data.hp), 1948, 2898));
   r.push(parseInt(data.defense));
   r.push(parseInt(data.offense));
   r.push(parseInt(data.difficult));
-  r.push(Math.floor(parseInt(data.movement) / 100));
-  const theta = [ "HP", "Defense","Difficult", "Offense" ];
+  r.push(mapNilai(parseInt(data.movement), 230, 268));
+  const theta = ["HP", "Defense", "Offense", "Difficult", "Movement"];
 
   const plotData = [
     {
@@ -121,6 +121,31 @@ function createPlot(data) {
   Plotly.newPlot("myDiv", plotData, layout);
 }
 
+// Fungsi untuk membuat visualisasi awal menggunakan Plotly
+function firstPlot() {
+  const theta = ["HP", "Defense", "Offense", "Difficult", "Movement"];
+
+  const plotData = [
+    {
+      type: "scatterpolar",
+      r: [0, 0, 0, 0, 0],
+      theta: theta,
+      fill: "toself",
+    },
+  ];
+
+  const layout = {
+    polar: {
+      radialaxis: {
+        visible: true,
+        range: [0, 10],
+      },
+    },
+    showlegend: false,
+  };
+
+  Plotly.newPlot("myDiv", plotData, layout);
+}
 // Fungsi untuk memperbarui visualisasi berdasarkan pilihan dropdown
 // function updatePlot(heroData) {
 //   const r = [];
