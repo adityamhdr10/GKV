@@ -7,6 +7,8 @@ fetch("http://localhost:3000/mlbb_hero-edit.csv")
 
     // Membuat visualisasi menggunakan Plotly
     firstPlot();
+    calculator(parsedData);
+
     const namahero = document.getElementById("namaHero");
     namahero.innerHTML = "";
     // Mengatur event listener untuk dropdown
@@ -21,7 +23,7 @@ fetch("http://localhost:3000/mlbb_hero-edit.csv")
       const listContainer = document.getElementById("listContainer");
 
       listContainer.innerHTML = "";
-
+      creatBarChat(filteredData);
       // Buat elemen li untuk setiap item dalam array data
       filteredData.forEach((item) => {
         // Buat elemen li
@@ -146,16 +148,90 @@ function firstPlot() {
 
   Plotly.newPlot("myDiv", plotData, layout);
 }
-// Fungsi untuk memperbarui visualisasi berdasarkan pilihan dropdown
-// function updatePlot(heroData) {
-//   const r = [];
 
-//   r.push(20);
-//   r.push(parseInt(data.defense_overall));
-//   r.push(parseInt(data.offense_overall));
-//   r.push(parseInt(data.difficulty_overall));
-//   r.push(parseInt(data.movement_spd));
-//   console.log(r);
+function creatBarChat(dataHero) {
+  const x = [];
+  const y = [];
+  dataHero.forEach((item) => {
+    x.push(item.hero_name);
+    y.push(item.winrate_pick * 100);
+  });
 
-//   Plotly.update("myDiv", { r: r });
-// }
+  var data = [
+    {
+      x: x,
+      y: y,
+      type: "bar",
+    },
+  ];
+  Plotly.newPlot("barChart", data);
+}
+
+var winBlue = [0.4746, 0.4746, 0.4746, 0.4746, 0.4746];
+var winRed = [0.5077, 0.5077, 0.5077, 0.5077, 0.5077];
+
+function creatDropdown(parsedData, i) {
+  var dropdownId = "dropdownHero" + i;
+  var dropdownHero1 = document.getElementById(dropdownId);
+
+  // Tambahkan opsi nama awal tanpa nilai
+  // var defaultOption = document.createElement("option");
+  // defaultOption.text = "Picked Hero";
+  // dropdownHero1.add(defaultOption);
+
+  // Tambahkan pilihan dari array JavaScript ke dropdown
+
+  for (var j = 0; j < parsedData.length; j++) {
+    var option = document.createElement("option");
+    option.text = parsedData[j].hero_name;
+    option.value = parsedData[j].hero_name;
+    dropdownHero1.add(option);
+  }
+
+  // Tambahkan event listener click
+  dropdownHero1.addEventListener("click", function () {
+    var selectedOption = this.options[this.selectedIndex];
+    var selectedValue = selectedOption.value;
+    var selectedText = selectedOption.text;
+
+    if (i <= 5 && i > 0) {
+      const heroData = parsedData.find((obj) => obj.hero_name == selectedValue);
+      if (heroData.winBlue != 0) {
+        winRed[i - 1] = heroData.winrate_blue;
+      } else {
+        winRed[i - 1] = 1;
+      }
+    } else if (i > 0) {
+      const heroData = parsedData.find((obj) => obj.hero_name == selectedValue);
+      winBlue[i - 6] = 1 - heroData.winrate_blue;
+      console.log(winBlue);
+    }
+  });
+}
+
+function calculator(parsedData) {
+  for (var i = 1; i <= 10; i++) {
+    creatDropdown(parsedData, i);
+  }
+  var button = document.getElementById("button1");
+
+  button.addEventListener("click", function () {
+    var hasil1 = winRed.reduce(function (acc, currentValue) {
+      return acc * currentValue;
+    }, 1);
+    var hasil2 = winBlue.reduce(function (acc, currentValue) {
+      return acc * currentValue;
+    }, 1);
+
+    var finalBlue = Math.floor(((hasil2 * 0.5) / (hasil2 * 0.5 + hasil1 * 0.5)) * 100) + 0.5;
+    var finalRed = Math.floor(((hasil1 * 0.5) / (hasil2 * 0.5 + hasil1 * 0.5)) * 100) + 0.5;
+
+    const red = document.getElementById("winRed");
+    const blue = document.getElementById("winBlue");
+
+    // console.log(hasil1);
+    // console.log(hasil2);
+    red.innerHTML = "Red " + finalRed + "%";
+    blue.innerHTML = "blue " + finalBlue + "%";
+  });
+}
