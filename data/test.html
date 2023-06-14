@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -6,13 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <!-- Load plotly.js into the DOM -->
+    <link rel="stylesheet"href= header.css>
     <script src="https://cdn.plot.ly/plotly-2.20.0.min.js"></script>
+    <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+    crossorigin="anonymous"
+  />
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+    crossorigin="anonymous"
+  ></script>
+
+    
     <style>
       .list-container {
         display: flex;
         flex-wrap: wrap;
       }
-
       .list-item {
         width: 100px;
         height: 30px;
@@ -25,46 +38,111 @@
     </style>
   </head>
   <body>
-    <h4 id="namaHero"></h4>
+    <nav>
+      <div class="logo">
+        <p>DWIZARD</p>
+      </div>
+      <ul>
+        <li><a href="#myDiv">STATISTIKA</a></li>
+        <li><a href="#winrate">WINRATE</a></li>
+      </ul>
+    </nav>
+    <div class="content-item">
+      <img src="Images/mpl.jpg"alt="">
+    </div>
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+
+    <div class="text-center fs-1 text-black fw-bold">Statistic Hero</div>
+    <h4 id="namaHero">ssssss</h4>
+  
     <div id="myDiv"><!-- Plotly chart will be drawn inside this DIV --></div>
     <script src="test.js"></script>
     <!-- HTML -->
+
     <div>
-      <select id="dropdown">
-        <option>PickedHero</option>
-        <option value="marksman">marskman</option>
-        <option value="tank">tank</option>
-        <option value="mage">mage</option>
+      <select class="form-select bg-dark text-white mx-auto" style="width: 200px" id="dropdown" aria-label="Floating label select example">
+        <option selected>Picked Hero</option>
+        <option value="marksman">Marskman</option>
+        <option value="tank">Tank</option>
+        <option value="mage">Mage</option>
         <option value="fighter">Fighter</option>
         <option value="assassin">Assassin</option>
         <option value="support">Support</option>
-
         <!-- Tambahkan opsi lain sesuai dengan jumlah hero yang ingin ditampilkan -->
       </select>
-      <ul id="listContainer"></ul>
+      <ul  id="listContainer"></ul>
       <p id=""></p>
     </div>
+    <div id="myDiv"></div>
     <div id="barChart"><!-- Plotly chart will be drawn inside this DIV --></div>
-    <div>
-      <h6>tim Blue</h6>
-      <select id="dropdownHero1"></select>
-      <select id="dropdownHero2"></select>
-      <select id="dropdownHero3"></select>
-      <select id="dropdownHero4"></select>
-      <select id="dropdownHero5"></select>
-      <br />
-      <h6>tim Red</h6>
-      <select id="dropdownHero6"></select>
-      <select id="dropdownHero7"></select>
-      <select id="dropdownHero8"></select>
-      <select id="dropdownHero9"></select>
-      <select id="dropdownHero10"></select>
 
-      <!-- Tambahkan opsi lain sesuai dengan jumlah hero yang ingin ditampilkan -->
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+
+    
+    <div class="text-center fs-1 text-black fw-bold">WINRATE</div>
+    <h4 id="winrate"></h4>
+    <div class="row g-2">
+      <br>
+      <div class="mx-auto" style="width: 100px"></div>
+      <br>
+      <div class="mx-auto" style="width: 350px">
+        <h6 class="text-center fs-5 text-primary fw-bold"> Team Blue </h6>
+        <select class="form-select bg-primary-subtle text-emphasis-primary mb-3" id="dropdownHero1"></select>
+        <select class="form-select bg-primary-subtle text-emphasis-primary mb-3" id="dropdownHero2"></select>
+        <select class="form-select bg-primary-subtle text-emphasis-primary mb-3" id="dropdownHero3"></select>
+        <select class="form-select bg-primary-subtle text-emphasis-primary mb-3" id="dropdownHero4"></select>
+        <select class="form-select bg-primary-subtle text-emphasis-primary mb-3" id="dropdownHero5"></select>
+      </div>
+      
+
+      <div class="mx-auto" style="width: 350px">
+      <h6 class="text-center fs-5 text-danger fw-bold">Team Red</h6>
+      <select class="form-select bg-danger-subtle text-emphasis-primary mb-3" id="dropdownHero6"></select>
+      <select class="form-select bg-danger-subtle text-emphasis-primary mb-3" id="dropdownHero7"></select>
+      <select class="form-select bg-danger-subtle text-emphasis-primary mb-3" id="dropdownHero8"></select>
+      <select class="form-select bg-danger-subtle text-emphasis-primary mb-3" id="dropdownHero9"></select>
+      <select class="form-select bg-danger-subtle text-emphasis-primary mb-3" id="dropdownHero10"></select>
     </div>
 
-    <button id="button1">Tombol 1</button>
+      <!-- Tambahkan opsi lain sesuai dengan jumlah hero yang ingin ditampilkan -->
+      <br>
+      <div class="mx-auto" style="width: 100px"></div>
+      <br>
+    </div>
+
+    <div class="d-grid gap-2 col-2 mx-auto">
+    <button class="btn btn-outline-success" id="button1">Lihat Winrate</button></div>
     <p id="winRed"></p>
     <p id="winBlue"></p>
+    <div id="PieWinrate"><!-- Plotly chart will be drawn inside this DIV --></div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+   
   </body>
 </html>

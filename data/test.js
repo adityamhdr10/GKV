@@ -23,11 +23,14 @@ fetch("http://localhost:3000/mlbb_hero-edit.csv")
       const listContainer = document.getElementById("listContainer");
 
       listContainer.innerHTML = "";
+      listContainer.classList.add("list-group","list-group-flush", "mx-auto");
+      listContainer.style.maxWidth = "150px";
       creatBarChat(filteredData);
       // Buat elemen li untuk setiap item dalam array data
       filteredData.forEach((item) => {
         // Buat elemen li
         const listItem = document.createElement("li");
+        listItem.classList.add("list-group-item");
 
         // Atur konten elemen li
         listItem.textContent = item.hero_name;
@@ -36,6 +39,7 @@ fetch("http://localhost:3000/mlbb_hero-edit.csv")
           // Tindakan yang ingin dilakukan ketika elemen li diklik
           console.log(`Anda mengklik ${item.hero_name}`);
           const heroData = parsedData.find((obj) => obj.hero_name == item.hero_name);
+          
           namahero.innerHTML = item.hero_name;
           createPlot(heroData);
         });
@@ -196,15 +200,24 @@ function creatDropdown(parsedData, i) {
 
     if (i <= 5 && i > 0) {
       const heroData = parsedData.find((obj) => obj.hero_name == selectedValue);
-      if (heroData.winBlue != 0) {
-        winRed[i - 1] = heroData.winrate_blue;
+
+      console.log(Number(heroData.winrate_blue));
+
+      if (Number(heroData.winrate_blue) !== 0) {
+        winBlue[i - 1] = heroData.winrate_blue;
       } else {
-        winRed[i - 1] = 1;
+        winBlue[i - 1] = 1;
       }
+      console.log(winBlue);
     } else if (i > 0) {
       const heroData = parsedData.find((obj) => obj.hero_name == selectedValue);
-      winBlue[i - 6] = 1 - heroData.winrate_blue;
-      console.log(winBlue);
+      if (Number(heroData.winrate_red) !== 0) {
+        winRed[i - 6] = heroData.winrate_red;
+      } else {
+        winRed[i - 6] = 1;
+      }
+
+      console.log(winRed);
     }
   });
 }
@@ -216,6 +229,9 @@ function calculator(parsedData) {
   var button = document.getElementById("button1");
 
   button.addEventListener("click", function () {
+    console.log("Win Blue: " + winBlue);
+    console.log("Win Red: " + winRed);
+
     var hasil1 = winRed.reduce(function (acc, currentValue) {
       return acc * currentValue;
     }, 1);
@@ -223,15 +239,75 @@ function calculator(parsedData) {
       return acc * currentValue;
     }, 1);
 
-    var finalBlue = Math.floor(((hasil2 * 0.5) / (hasil2 * 0.5 + hasil1 * 0.5)) * 100) + 0.5;
-    var finalRed = Math.floor(((hasil1 * 0.5) / (hasil2 * 0.5 + hasil1 * 0.5)) * 100) + 0.5;
+    var finalBlue = ((hasil2 * 0.5) / (hasil2 * 0.5 + hasil1 * 0.5)) * 100;
+    var finalRed = ((hasil1 * 0.5) / (hasil2 * 0.5 + hasil1 * 0.5)) * 100;
 
     const red = document.getElementById("winRed");
     const blue = document.getElementById("winBlue");
 
     // console.log(hasil1);
     // console.log(hasil2);
-    red.innerHTML = "Red " + finalRed + "%";
-    blue.innerHTML = "blue " + finalBlue + "%";
+    red.innerHTML = "Red " + finalRed.toFixed(2) + "%";
+    blue.innerHTML = "blue " + finalBlue.toFixed(2) + "%";
+
+    createWinrate(finalRed.toFixed(2), finalBlue.toFixed(2));
   });
+}
+
+function createWinrate(red, blue) {
+  // var data = [
+  //   {
+  //     type: "pie",
+  //     values: [red, blue],
+  //     labels: ["Wages", "Operating expenses"],
+  //     textinfo: "label+percent",
+  //     insidetextorientation: "radial",
+  //     marker: {
+  //       colors: ["rgb(255, 0, 0)", "rgb(0, 0, 255)"],
+  //     },
+  //   },
+  // ];
+
+  // var layout = [
+  //   {
+  //     height: 700,
+  //     width: 700,
+  //   },
+  // ];
+
+  var trace1 = {
+    y: [""],
+    x: [red],
+    name: "Red",
+    type: "bar",
+    orientation: "h",
+    marker: {
+      color: "red",
+    },
+  };
+
+  var trace2 = {
+    y: [""],
+    x: [blue],
+    name: "blue",
+    type: "bar",
+    orientation: "h",
+    marker: {
+      color: "blue",
+    },
+  };
+
+  var data = [trace1, trace2];
+
+  var layout = {
+    barmode: "stack",
+    orientation: "h",
+
+    xaxis: {
+      ticktext: [""],
+      showticklabels: false,
+    },
+  };
+
+  Plotly.newPlot("PieWinrate", data, layout);
 }
